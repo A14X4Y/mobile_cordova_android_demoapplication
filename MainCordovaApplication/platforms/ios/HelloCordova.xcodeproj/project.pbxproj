@@ -17,9 +17,9 @@
 		4E7CA2B7272ABB0D00177EF9 /* www in Copy Staging Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
 		90B630EF2AECBBD0009EF368 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 90B630EE2AECBBD0009EF368 /* PrivacyInfo.xcprivacy */; };
-		B5D240E15D004D88AD055AE6 /* BLEPeripheralPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6C765D7AA44549CCCBB87 /* BLEPeripheralPlugin.m */; };
-		311E54030E334B749930145E /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7473BE510A64AC99422C95F /* CoreBluetooth.framework */; };
-		EB91823FD4F846E29898B342 /* Condo.m in Sources */ = {isa = PBXBuildFile; fileRef = D2738EBEA21443E19C239237 /* Condo.m */; };
+		4694CDDBE59547B69C5B01D3 /* BLEPeripheralPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 611B8C03A9F64BE3A62E8CF5 /* BLEPeripheralPlugin.m */; };
+		10A52EDEABF645CD833BF12E /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF1EBEF728C74C488C0030D4 /* CoreBluetooth.framework */; };
+		650E9489F4734A328736EA64 /* Condo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF96B60D4E94B01A77450AF /* Condo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,10 +83,10 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "HelloCordova/config.xml"; sourceTree = "<group>"; };
-		0BF6C765D7AA44549CCCBB87 /* BLEPeripheralPlugin.m */ = {isa = PBXFileReference; name = "BLEPeripheralPlugin.m"; path = "cordova-plugin-ble-peripheral/BLEPeripheralPlugin/BLEPeripheralPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		CC22309222E64799B089980A /* BLEPeripheralPlugin.h */ = {isa = PBXFileReference; name = "BLEPeripheralPlugin.h"; path = "cordova-plugin-ble-peripheral/BLEPeripheralPlugin/BLEPeripheralPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		A7473BE510A64AC99422C95F /* CoreBluetooth.framework */ = {isa = PBXFileReference; name = "CoreBluetooth.framework"; path = "System/Library/Frameworks/CoreBluetooth.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
-		D2738EBEA21443E19C239237 /* Condo.m */ = {isa = PBXFileReference; name = "Condo.m"; path = "cordova-plugin-condo/Condo.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		611B8C03A9F64BE3A62E8CF5 /* BLEPeripheralPlugin.m */ = {isa = PBXFileReference; name = "BLEPeripheralPlugin.m"; path = "cordova-plugin-ble-peripheral/BLEPeripheralPlugin/BLEPeripheralPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		A163E82C1C2247E2BE7DEA8A /* BLEPeripheralPlugin.h */ = {isa = PBXFileReference; name = "BLEPeripheralPlugin.h"; path = "cordova-plugin-ble-peripheral/BLEPeripheralPlugin/BLEPeripheralPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		AF1EBEF728C74C488C0030D4 /* CoreBluetooth.framework */ = {isa = PBXFileReference; name = "CoreBluetooth.framework"; path = "System/Library/Frameworks/CoreBluetooth.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		0FF96B60D4E94B01A77450AF /* Condo.m */ = {isa = PBXFileReference; name = "Condo.m"; path = "cordova-plugin-condo/Condo.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +95,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
-				311E54030E334B749930145E /* CoreBluetooth.framework in Frameworks */,
+				10A52EDEABF645CD833BF12E /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +158,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A7473BE510A64AC99422C95F /* CoreBluetooth.framework */,
+				AF1EBEF728C74C488C0030D4 /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -185,9 +185,9 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				0BF6C765D7AA44549CCCBB87 /* BLEPeripheralPlugin.m */,
-				CC22309222E64799B089980A /* BLEPeripheralPlugin.h */,
-				D2738EBEA21443E19C239237 /* Condo.m */,
+				611B8C03A9F64BE3A62E8CF5 /* BLEPeripheralPlugin.m */,
+				A163E82C1C2247E2BE7DEA8A /* BLEPeripheralPlugin.h */,
+				0FF96B60D4E94B01A77450AF /* Condo.m */,
 			);
 			name = Plugins;
 			path = "HelloCordova/Plugins";
@@ -300,8 +300,8 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				B5D240E15D004D88AD055AE6 /* BLEPeripheralPlugin.m in Sources */,
-				EB91823FD4F846E29898B342 /* Condo.m in Sources */,
+				4694CDDBE59547B69C5B01D3 /* BLEPeripheralPlugin.m in Sources */,
+				650E9489F4734A328736EA64 /* Condo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
