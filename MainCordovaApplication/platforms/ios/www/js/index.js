@@ -222,7 +222,7 @@ var app = {
 
     blePeripheral.onWriteRequest(app.didReceiveWriteRequest);
     blePeripheral.onBluetoothStateChange(app.onBluetoothStateChange);
-    // blePeripheral.onReadRequest(app.onReadRequest);
+    blePeripheral.onReadRequest(app.onReadRequest);
 
     // 2 different ways to create the service: API calls or JSON
     app.createService();
@@ -261,11 +261,28 @@ var app = {
       ),
       blePeripheral.publishService(SERVICE_UUID),
       blePeripheral.startAdvertising(SERVICE_UUID, "BLE_TEST"),
+      blePeripheral.onReadRequest((service, characteristic) => {
+        console.log(
+          "onReadRequest",
+          "service:",
+          service,
+          "characteristic:",
+          characteristic
+        );
+        const input = document.querySelector("input");
+        const value = input.value;
+        console.log("onReadRequest value:", value);
+        const bytes = stringToBytes(value);
+        console.log("onReadRequest bytes:", bytes);
+        const initial = "onReadRequest";
+
+        return value ? bytes : initial;
+      }),
     ]).then(function () {
       console.log("Created UART Service");
       console.log(
-        "RX_UUID",
-        RX_UUID,
+        "TX_UUID",
+        TX_UUID,
         `Characteristic: "property" = ${property.WRITE} permission = ${permission.WRITEABLE}`
       );
       console.log(
@@ -329,6 +346,7 @@ var app = {
     var bytes = stringToBytes(input.value);
 
     var success = function () {
+      console.log(`setCharacteristicValue ${input.value}`);
       outputDiv.innerHTML += "Отправлено: " + messageInput.value + "<br/>";
       console.log("Updated RX value to " + input.value);
     };
@@ -341,8 +359,9 @@ var app = {
       .then(success, failure);
   },
   didReceiveWriteRequest: function (request) {
+    console.log("didReceiveWriteRequest request", request);
     var message = bytesToString(request.value);
-    console.log(message);
+    console.log("didReceiveWriteRequest messaage", message);
     // warning: message should be escaped to avoid javascript injection
     outputDiv.innerHTML += "<i>Полученно сообщение: " + message + "</i><br/>";
   },
