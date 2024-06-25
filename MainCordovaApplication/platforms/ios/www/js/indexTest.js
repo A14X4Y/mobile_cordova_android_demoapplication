@@ -202,10 +202,11 @@ function stringToBytes(string) {
 var SERVICE_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E";
 var TX_UUID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
 var RX_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
-
+console.log("cordova start");
 var app = {
   // Application Constructor
   initialize: function () {
+    console.log("initialize call");
     this.bindEvents();
   },
   bindEvents: function () {
@@ -274,7 +275,7 @@ var app = {
         console.log("onReadRequest value:", value);
         const bytes = stringToBytes(value);
         console.log("onReadRequest bytes:", bytes);
-        const initial = "onReadRequest";
+        const initial = "No information";
 
         return value ? bytes : initial;
       }),
@@ -347,7 +348,8 @@ var app = {
 
     var success = function () {
       console.log(`setCharacteristicValue ${input.value}`);
-      outputDiv.innerHTML += "Отправлено: " + messageInput.value + "<br/>";
+      outputDiv.innerHTML +=
+        "Updated RX value to " + messageInput.value + "<br/>";
       console.log("Updated RX value to " + input.value);
     };
     var failure = function () {
@@ -370,5 +372,7 @@ var app = {
     outputDiv.innerHTML += "Bluetooth  is " + state + "<br/>";
   },
 };
-
+console.log(
+  "asdjalsdjalksdjaklsdjklasjdlaksdjalksdjaklsdjaklsdjalksdjaslkdjalksdaslkdjaskldjasldjaslkdj"
+);
 app.initialize();

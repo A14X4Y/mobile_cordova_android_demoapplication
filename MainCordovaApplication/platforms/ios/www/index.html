@@ -51,6 +51,7 @@
                 <p class="event received">Device is Ready</p>
             </div>
             <a href="#" onclick="window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', '_blank', 'fullscreen=yes'); return false;">MyPDF</a> -->
+        <h2>CHECK</h2>
         <h2>UART</h2>
         <div>
             <input type="text" id="messageInput" placeholder="Введите текст" />
@@ -59,7 +60,199 @@
         </div>
     </div>
     <script src="cordova.js"></script>
-    <script src="js/index.js"></script>
+    <!-- <script src="js/indexTest.js"></script> -->
+     <script>function bytesToString(buffer) {
+        return String.fromCharCode.apply(null, new Uint8Array(buffer));
+      }
+      
+      // only works for ASCII characters
+      function stringToBytes(string) {
+        var array = new Uint8Array(string.length);
+        for (var i = 0, l = string.length; i < l; i++) {
+          array[i] = string.charCodeAt(i);
+        }
+        return array.buffer;
+      }
+      
+      // Nordic UART Service
+      var SERVICE_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E";
+      var TX_UUID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
+      var RX_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
+      console.log("cordova start");
+      var app = {
+        // Application Constructor
+        initialize: function () {
+          console.log("initialize call");
+          this.bindEvents();
+        },
+        bindEvents: function () {
+          document.addEventListener("deviceready", this.onDeviceReady, false);
+          sendButton.addEventListener(
+            "touchstart",
+            this.updateCharacteristicValue,
+            false
+          );
+        },
+        onDeviceReady: function () {
+          var property = blePeripheral.properties;
+          var permission = blePeripheral.permissions;
+      
+          blePeripheral.onWriteRequest(app.didReceiveWriteRequest);
+          blePeripheral.onBluetoothStateChange(app.onBluetoothStateChange);
+          blePeripheral.onReadRequest(app.onReadRequest);
+      
+          // 2 different ways to create the service: API calls or JSON
+          app.createService();
+          // app.createServiceJSON();
+        },
+        onReadRequest: function (request) {
+          console.log("onReadRequest", request);
+          let message;
+          try {
+            message = bytesToString(request.value);
+          } catch (error) {}
+          console.log(message);
+          // warning: message should be escaped to avoid javascript injection
+          outputDiv.innerHTML += "<i>" + message + "</i><br/>";
+        },
+        createService: function () {
+          // https://learn.adafruit.com/introducing-the-adafruit-bluefruit-le-uart-friend/uart-service
+          // Characteristic names are assigned from the point of view of the Central device
+      
+          var property = blePeripheral.properties;
+          var permission = blePeripheral.permissions;
+      
+          Promise.all([
+            blePeripheral.createService(SERVICE_UUID),
+            blePeripheral.addCharacteristic(
+              SERVICE_UUID,
+              TX_UUID,
+              property.WRITE,
+              permission.WRITEABLE
+            ),
+            blePeripheral.addCharacteristic(
+              SERVICE_UUID,
+              RX_UUID,
+              property.READ | property.NOTIFY,
+              permission.READABLE
+            ),
+            blePeripheral.publishService(SERVICE_UUID),
+            blePeripheral.startAdvertising(SERVICE_UUID, "BLE_TEST"),
+            blePeripheral.onReadRequest((service, characteristic) => {
+              console.log(
+                "onReadRequest",
+                "service:",
+                service,
+                "characteristic:",
+                characteristic
+              );
+              const input = document.querySelector("input");
+              const value = input.value;
+              console.log("onReadRequest value:", value);
+              const bytes = stringToBytes(value);
+              console.log("onReadRequest bytes:", bytes);
+              const initial = "No information";
+      
+              return value ? bytes : initial;
+            }),
+          ]).then(function () {
+            console.log("Created UART Service");
+            console.log(
+              "TX_UUID",
+              TX_UUID,
+              `Characteristic: "property" = ${property.WRITE} permission = ${permission.WRITEABLE}`
+            );
+            console.log(
+              "RX_UUID",
+              RX_UUID,
+              `Characteristic: "property" = ${
+                property.READ | property.NOTIFY
+              } permission = ${permission.READABLE}`
+            );
+          }, app.onError);
+      
+          blePeripheral.onWriteRequest(app.didReceiveWriteRequest);
+        },
+        createServiceJSON: function () {
+          // https://learn.adafruit.com/introducing-the-adafruit-bluefruit-le-uart-friend/uart-service
+          // Characteristic names are assigned from the point of view of the Central device
+      
+          var property = blePeripheral.properties;
+          var permission = blePeripheral.permissions;
+      
+          var uartService = {
+            uuid: SERVICE_UUID,
+            characteristics: [
+              {
+                uuid: TX_UUID,
+                properties: property.WRITE,
+                permissions: permission.WRITEABLE,
+                descriptors: [
+                  {
+                    uuid: "2901",
+                    value: "Transmit",
+                  },
+                ],
+              },
+              {
+                uuid: RX_UUID,
+                properties: property.READ | property.NOTIFY,
+                permissions: permission.READABLE,
+                descriptors: [
+                  {
+                    uuid: "2901",
+                    value: "Receive",
+                  },
+                ],
+              },
+            ],
+          };
+      
+          Promise.all([blePeripheral.createServiceFromJSON(uartService)]).then(
+            function () {
+              console.log("Created UART Service");
+            },
+            app.onError
+          );
+          blePeripheral.startAdvertising(uartService.uuid, "BLE_TEST").then(() => {
+            console.log(uartService.uuid);
+          }, app.onError);
+        },
+        updateCharacteristicValue: function () {
+          var input = document.querySelector("input");
+          var bytes = stringToBytes(input.value);
+      
+          var success = function () {
+            console.log(`setCharacteristicValue ${input.value}`);
+            outputDiv.innerHTML +=
+              "Updated RX value to " + messageInput.value + "<br/>";
+            console.log("Updated RX value to " + input.value);
+          };
+          var failure = function () {
+            console.log("Error updating RX value.");
+          };
+      
+          blePeripheral
+            .setCharacteristicValue(SERVICE_UUID, RX_UUID, bytes)
+            .then(success, failure);
+        },
+        didReceiveWriteRequest: function (request) {
+          console.log("didReceiveWriteRequest request", request);
+          var message = bytesToString(request.value);
+          console.log("didReceiveWriteRequest messaage", message);
+          // warning: message should be escaped to avoid javascript injection
+          outputDiv.innerHTML += "<i>Полученно сообщение: " + message + "</i><br/>";
+        },
+        onBluetoothStateChange: function (state) {
+          console.log("Bluetooth State is", state);
+          outputDiv.innerHTML += "Bluetooth  is " + state + "<br/>";
+        },
+      };
+      console.log(
+        "asdjalsdjalksdjaklsdjklasjdlaksdjalksdjaklsdjaklsdjalksdjaslkdjalksdaslkdjaskldjasldjaslkdj"
+      );
+      app.initialize();</script>
+     
     <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
         // VConsole will be exported to `window.VConsole` by default.
